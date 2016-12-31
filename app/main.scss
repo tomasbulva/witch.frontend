@@ -1,0 +1,111 @@
+@import 'bourbon';
+@import 'neat';
+@import 'variables';
+
+body {
+  margin: 0;
+  padding: 0;
+
+  @include align-items(stretch);
+  @include display(flex);
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+}
+
+.svg-sprite {
+  display: none;
+}
+
+.progress {
+  background-color: $neutral;
+
+  .bar {
+    background-color: $hightlight;
+    height: 100%;
+  }
+}
+
+[bd*="settings.selectAP"] {
+  #wifi-setup-step-1 {
+    > ul {
+      > li {
+        &:hover {
+          background-color: $hightlight;
+        }
+        &:active {
+          background-color: $select;
+        }
+      }
+    }
+  }
+}
+
+[bd*="settings.selectLightGroup"] {
+  #lights-setup-step-4 {
+    #group-setup,
+    #light-setup {
+      display: none;
+      &.active {
+        display: block;
+      }
+
+      > ul {
+        > li {
+          &:hover {
+            background-color: $hightlight;
+          }
+          &:active {
+            background-color: $select;
+          }
+        }
+      }
+    }
+  }
+}
+
+[bd*="off"] {
+  screenButton {
+    display: block;
+  }
+}
+
+[bd*="on"] {
+  main {
+    @include align-items(stretch);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    @include flex(1);
+
+    lightStateBackground {
+      @include flex(1);
+
+      background-color: $neutral;
+      margin: 0;
+      padding: 0;
+
+      > div {
+
+        display: block;
+        @include size(50% 44px);
+        background-color: rgba(255,255,255,0.3);
+        z-index: 1;
+
+        > handle {
+
+        }
+
+      }
+
+
+      drawer {
+
+        @include align-items(stretch);
+        @include display(flex);
+        @include flex-direction(row);
+        @include justify-content(flex-start);
+        @include flex(1);
+      }
+    }
+  }
+}
