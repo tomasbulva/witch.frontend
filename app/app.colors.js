@@ -538,7 +538,7 @@
         var maxBri = 254;
         var maxBriPrc = maxBri / 100;
 
-        var result = Math.round(flipBri * maxBriPrc);
+        var result = Math.round(flipBri * maxBriPrc); // 
         //console.log('HelperNormalizeBri result', result);
 
         return result;

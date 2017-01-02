@@ -64,8 +64,43 @@ body {
 }
 
 [bd*="off"] {
-  screenButton {
-    display: block;
+  main {
+    @include align-items(stretch);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    @include flex(1);
+
+    lightStateBackground {
+      @include flex(1);
+      @include align-items(center);
+      @include display(flex);
+      @include flex-direction(row);
+      @include justify-content(center);
+
+      background-color: $black;
+      margin: 0;
+      padding: 0;
+
+      screenButton {
+        @include flex(1);
+        @include align-items(center);
+        @include display(flex);
+        @include flex-direction(row);
+        @include justify-content(center);
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+        }
+
+        svg.logo {
+          @include flex(1);
+          max-width: 50%;
+          animation: fadeIn 8s infinite alternate;
+        }
+      }
+
+    }
   }
 }
 
