@@ -77,7 +77,7 @@
     bodyDecorator.$inject = [
       '$rootScope',
       '$state',
-      'globalApp',
+      'local',
       '$transitions',
       '$window'
     ];
@@ -85,7 +85,7 @@
     function bodyDecorator(
       $rootScope,
       $state,
-      globalApp,
+      local,
       $transitions,
       $window
     ) {
@@ -100,6 +100,11 @@
       /// service methods
       function linkFunc(scope,el,attrs){
 
+        var localData = local.getAllData();
+        if ( ! localData.window ) {
+          localData.window = {};
+        }
+
         $transitions.onStart( {}, function($transition$) {
           el.addClass('loading');
         });
@@ -109,7 +114,7 @@
 
           var newState = $transition$.$to();
           el.attr('bd', newState || 'unknown');
-          globalApp.state = newState;
+          localData.state = newState.name;
 
         });
 
@@ -117,13 +122,13 @@
 
         var sizeGuard = function(){
 
-          var width = w.width();
-          var height = w.height();
+          var _width = w.width();
+          var _height = w.height();
 
-          globalApp.window.width = width;
-          globalApp.window.height = height;
+          localData.window.width = _width;
+          localData.window.height = _height;
 
-          var css = "width: " + width + "px ; height: " + height + "px";
+          var css = "width: " + _width + "px ; height: " + _height + "px";
           attrs.$set('style', css);
         };
 

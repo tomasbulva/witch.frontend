@@ -13,6 +13,7 @@
 
     function colorHelper(){
 
+      var self = this;
       var service = {
         RGBtoHueAngSatBri: HelperRGBtoHueAngSatBri,
         HuetoHueAng: HelperHuetoHueAng,
@@ -25,6 +26,9 @@
         ToStringArray: HelperToStringArray,
         TwoFiftyFifeRange: HelperTwoFiftyFifeRange,
         RgbToHex: HelperRgbToHex,
+        NormalizeBri: HelperNormalizeBri,
+        HexToZeroToOne: HelperHexToZeroToOne,
+        BriToScreenPos: HelperBriToScreenPos
       };
 
       return service;
@@ -524,6 +528,49 @@
 
           return '#' + resultArr.join('');
         }
+      }
+
+      function HelperNormalizeBri(bri, reverse) {
+
+        //console.log('HelperNormalizeBri bri', bri);
+
+        var flipBri = ( reverse ) ? 100 - bri : bri;
+        var maxBri = 254;
+        var maxBriPrc = maxBri / 100;
+
+        var result = Math.round(flipBri * maxBriPrc);
+        //console.log('HelperNormalizeBri result', result);
+
+        return result;
+        //console.log('HelperNormalizeBri bri', bri);
+      }
+
+      function HelperHexToZeroToOne(bri) {
+        //console.log('HelperHexToZeroToOne bri', bri);
+
+        var maxBri = 254;
+        var maxBriPrc = maxBri / 100;
+
+        var result = ((bri / maxBriPrc) / 100).toFixed(4);
+
+        //console.log('HelperHexToZeroToOne result', result);
+
+        return result;
+      }
+
+      function HelperBriToScreenPos(bri, screenHeight) {
+        // bri is 0 ... 254
+
+        var briPerc = this.HexToZeroToOne(bri);
+        var result = screenHeight * briPerc;
+
+        console.log(' ');
+        console.log('HelperBriToScreenPos bri', bri, 'screenHeight', screenHeight);
+        console.log(' ');
+        console.log(result);
+        console.log(' ');
+
+        return result;
       }
     }
 

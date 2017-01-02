@@ -7,6 +7,7 @@
   angular
     .module('witch')
     .directive('lightColor', colorSetter)
+    .directive('brightnessPos', briPos)
     .controller('onScreen', onScreen);
 
   onScreen.$inject = [
@@ -29,15 +30,6 @@
     var vm = this;
     var localData = local.getAllData();
 
-    console.log('onScreen localData.target.action.bri', localData.target.action.bri);
-
-    var bri = vm.brightness = ( localData.target.action.bri <= 0 || localData.target.action.bri > 254 ) ? 45.0 : localData.target.action.bri;
-    if ( bri !== localData.target.action.bri ) {
-      localData.target.action.bri = bri;
-    }
-
-    vm.top = colors.BriToScreenPos( bri, localData.window.height || 0 );
-
     if ( localData.target.style !== 'light' ) { // style group is default
       hue.setGroupState(localData.target.id, { "on": true });
     }
@@ -47,8 +39,10 @@
 
     var x = localData.target.action.xy[0];
     var y = localData.target.action.xy[1];
-
     console.log('localData.target.action.bri', localData.target.action.bri);
+
+    var bri = vm.brightness = (localData.target.action.bri === 0) ? 45.0 : localData.target.action.bri;
+
     console.log('vm.brightness', vm.brightness);
 
     $scope.$watch('vm.brightness', _.throttle(briChangeWatch,500));
@@ -59,10 +53,8 @@
       if ( newBri !== oldBri ) {
         console.log('newBri',newBri);
         //_.throttle(function(newBri){
-          //var bri = colors.NormalizeBri( newBri, true );
-          var bri = localData.target.action.bri = 100 - newBri;
-
-          console.log( 'briChangeWatch', local.getAllData().target.action.bri );
+          var bri = colors.NormalizeBri( newBri, true );
+          localData.target.action.bri = bri;
 
           if ( bri === 0 ) {
             $state.go('off');
@@ -140,6 +132,16 @@
       }
 
     }
+  }
+
+  briPos.$inject = [
+    'local'
+  ];
+
+  function briPos(
+    local
+  ){
+    
   }
 
 })();
