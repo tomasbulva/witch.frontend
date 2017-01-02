@@ -21,20 +21,26 @@
     ){
       console.log('localStorageHandler');
       var service = {
-        getAllData: getAllData,
-        init: init
+        getAllData: _getAllData,
+        init: _init
       };
 
       return service;
 
       /// service methods
-      function getAllData(){
+      function _getAllData(){
         return $localStorage[DEVICE];
       }
 
-      function init(){
+      function _init(){
         if ( ! $localStorage[DEVICE] ) {
-          $localStorage[DEVICE] = {};
+          $localStorage[DEVICE] = {
+            state: null,
+            window: {
+              width: null,
+              height: null
+            }
+          };
         }
       }
 
@@ -100,7 +106,12 @@
       /// service methods
       function linkFunc(scope,el,attrs){
 
+        if ( ! local.getAllData() ) {
+          local.init();
+        }
+
         var localData = local.getAllData();
+
         if ( ! localData.window ) {
           localData.window = {};
         }

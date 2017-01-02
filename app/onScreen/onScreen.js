@@ -27,62 +27,68 @@
     //console.log('HERE ON');
 
     var vm = this;
-    var localData = local.getAllData();
 
-    console.log('onScreen localData.target.action.bri', localData.target.action.bri);
+    vm.localData = local.getAllData();
+    vm.brightness = ( vm.localData.target.action.bri <= 0 || vm.localData.target.action.bri > 254 ) ? 45.0 : vm.localData.target.action.bri;
+    vm.topPos = 0;
+    vm.switchLightOff = switchLightOff;
 
-    var bri = vm.brightness = ( localData.target.action.bri <= 0 || localData.target.action.bri > 254 ) ? 45.0 : localData.target.action.bri;
-    if ( bri !== localData.target.action.bri ) {
-      localData.target.action.bri = bri;
+    activate();
+
+    briChangeWatch( vm.brightness, null );
+
+    function activate() {
+      //var localData = local.getAllData();
+      //var x = localData.target.action.xy[0];
+      //var y = localData.target.action.xy[1];
+
+      if ( vm.brightness !== vm.localData.target.action.bri ) {
+        vm.localData.target.action.bri = vm.brightness;
+      }
+
+      console.log('vm.brightness',vm.brightness);
+
+      vm.topPos = colors.BriToScreenPos( vm.brightness, vm.localData.window.height );
+
+      console.log('vm.topPos',vm.topPos);
+
+      if ( vm.localData.target.style !== 'light' ) { // style group is default
+        hue.setGroupState(vm.localData.target.id, { "on": true });
+      }
+      else {
+        hue.setLightState(vm.localData.target.id, { "on": true });
+      }
+
+      $scope.$watch('vm.brightness', _.throttle(briChangeWatch,500));
     }
-
-    vm.top = colors.BriToScreenPos( bri, localData.window.height || 0 );
-
-    if ( localData.target.style !== 'light' ) { // style group is default
-      hue.setGroupState(localData.target.id, { "on": true });
-    }
-    else {
-      hue.setLightState(localData.target.id, { "on": true });
-    }
-
-    var x = localData.target.action.xy[0];
-    var y = localData.target.action.xy[1];
-
-    console.log('localData.target.action.bri', localData.target.action.bri);
-    console.log('vm.brightness', vm.brightness);
-
-    $scope.$watch('vm.brightness', _.throttle(briChangeWatch,500));
-
-    briChangeWatch(bri,null);
 
     function briChangeWatch(newBri, oldBri){
       if ( newBri !== oldBri ) {
         console.log('newBri',newBri);
-        //_.throttle(function(newBri){
-          //var bri = colors.NormalizeBri( newBri, true );
-          var bri = localData.target.action.bri = 100 - newBri;
 
-          console.log( 'briChangeWatch', local.getAllData().target.action.bri );
+        var bri = colors.NormalizeBri( newBri, true );
 
-          if ( bri === 0 ) {
-            $state.go('off');
-          }
+        vm.localData.target.action.bri = bri;
 
-          if ( localData.target.style !== 'light' ) { // style group is default
-            hue.setGroupState(localData.target.id, { "bri": bri });
-          }
-          else {
-            hue.setLightState(localData.target.id, { "bri": bri });
-          }
-        //}, 100);
+        console.log( 'briChangeWatch', local.getAllData().target.action.bri );
+
+        if ( bri === 0 ) {
+          $state.go('off');
+        }
+
+        if ( vm.localData.target.style !== 'light' ) { // style group is default
+          hue.setGroupState(vm.localData.target.id, { "bri": bri });
+        }
+        else {
+          hue.setLightState(vm.localData.target.id, { "bri": bri });
+        }
       }
     }
-    //console.log(colors.XYtoRGB(x,y,bri)); // x, y, Brightness
 
-
-    vm.switchLightOff = function(){
+    function switchLightOff(){
+      console.log('switch off');
       $state.go('off');
-    };
+    }
   }
 
   colorSetter.$inject = [

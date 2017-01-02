@@ -219,22 +219,22 @@ module.exports = function (grunt) {
     //   }
     // },
 
-    ngAnnotate: {
-        options: {
-            singleQuotes: true,
-        },
-        all: {
-          files: [{
-                  expand: true,
-                  cwd: 'app/',
-                  src: ['**/*.js'],
-                  dest: 'build/',
-                  ext: '.js'
-                  //ext: '.annotated.js', // Dest filepaths will have this extension.
-                  //extDot: 'last',       // Extensions in filenames begin after the last dot
-          }]
-        }
-    },
+    // ngAnnotate: {
+    //     options: {
+    //         singleQuotes: true,
+    //     },
+    //     all: {
+    //       files: [{
+    //               expand: true,
+    //               cwd: 'app/',
+    //               src: ['**/*.js'],
+    //               dest: 'build/',
+    //               ext: '.js'
+    //               //ext: '.annotated.js', // Dest filepaths will have this extension.
+    //               //extDot: 'last',       // Extensions in filenames begin after the last dot
+    //       }]
+    //     }
+    // },
 
   });
 
