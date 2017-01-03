@@ -1,0 +1,27 @@
+<section id="wifi-setup-step-2" class="">
+
+  <form name="wifiPasswordForm">
+
+    <input name=" password "
+      ng-class=""
+      type="{{ vm.seePass }}"
+      ng-model=" vm.wifi.password "
+      ng-blur=" vm.submitPass() "
+      ng-enter-key=" vm.submitPass() "
+      required=" true "
+      autocomplete=" off "
+    >
+    <input
+      type="checkbox"
+      id="checkbox"
+      ng-click="vm.hideShowPassword()"
+    >
+
+    <button name=" signInAp "
+      ng-click=" vm.submitPass() "
+    >
+    submit
+    </button>
+
+  </form>
+</section>

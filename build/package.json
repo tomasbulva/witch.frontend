@@ -1,0 +1,18 @@
+{
+  "main": "index.html",
+  "name": "witch",
+  "description": "witch",
+  "version": "0.1.0",
+  "keywords": [ "witch", "node-webkit" ],
+  "window": {
+    "title": "witch",
+    "icon": "link.png",
+    "kiosk": true,
+    "width": 240,
+    "height": 320,
+    "position": "center"
+  },
+  "webkit": {
+    "plugin": true
+  }
+}

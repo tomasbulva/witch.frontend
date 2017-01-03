@@ -88,6 +88,8 @@ module.exports = function (grunt) {
         }
       }
     },
+
+
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -96,7 +98,7 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '/scripts/{,**/}*.js'
+          '/app/{,**/}*.js'
         ]
       },
       test: {
@@ -106,6 +108,8 @@ module.exports = function (grunt) {
         src: ['test/spec/{,**/}*.js']
       }
     },
+
+
     autoprefixer: {
       options: {
         browsers: ['last 1 version']
@@ -130,13 +134,16 @@ module.exports = function (grunt) {
         }]
       }
     },
+
+
     injector: {
       options: {
         bowerPrefix: 'bower:',
+        ignorePath: 'build/'
       },
       bower_dependencies: {
         options: {
-          ignorePath: '/bower_components/jquery'
+          ignorePath: 'bower_components/jquery/'
         },
         files: {
           'index.html': ['bower.json']
@@ -157,14 +164,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // browserify: {
-    //   colors: {
-    //     files: {
-    //       'custom_components/colors/dist/colors.js': ['custom_components/colors/src/**/*.js', 'custom_components/colors/src/**/*.coffee']
-    //     },
-    //   }
-    // },
-
     sass: {
       dist: {
         options: {
@@ -179,17 +178,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Renames files for browser caching purposes
-    // filerev: {
-    //   dist: {
-    //     src: [
-    //       '{,**/}*.js',
-    //       '{,**/}*.css',
-    //       '{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-    //       'fonts/*'
-    //     ]
-    //   }
-    // },
     svgstore: {
       options: {
         //prefix : 'shape-', // This will prefix each <g> ID
@@ -219,22 +207,87 @@ module.exports = function (grunt) {
     //   }
     // },
 
-    // ngAnnotate: {
-    //     options: {
-    //         singleQuotes: true,
-    //     },
-    //     all: {
-    //       files: [{
-    //               expand: true,
-    //               cwd: 'app/',
-    //               src: ['**/*.js'],
-    //               dest: 'build/',
-    //               ext: '.js'
-    //               //ext: '.annotated.js', // Dest filepaths will have this extension.
-    //               //extDot: 'last',       // Extensions in filenames begin after the last dot
-    //       }]
-    //     }
-    // },
+    clean: {
+      build: {
+        src: [ 'build' ]
+      },
+      buildFinish: {
+        src: [ 'build/vendor.js' ]
+      },
+    },
+    copy: {
+      build: {
+        files: [{
+          src: [
+            'app/**/*.html',
+            'app/**/*.svg',
+            '**/*.png',
+            'nw.index.html',
+            'nw.package.json'
+          ], //'app/**',
+          dest: 'build/'
+        }]
+      },
+    },
+    cssmin: {
+      build: {
+        files: {
+          'build/style.css': [ 'app/**/*.css' ]
+        }
+      }
+    },
+    uglify: {
+      build: {
+        options: {
+          mangle: false
+        },
+        files: {
+          'build/bundle.min.js': [
+            'app/app.js',
+            'app/app.config.js',
+            'app/app.routes.js',
+            'app/app.main.js',
+            'app/app.colors.js',
+            'app/settingsScreen/settingsScreen.js',
+            'app/onScreen/onScreen.js',
+            'app/offScreen/offScreen.js',
+          ],
+          'build/vendor.min.js': [ 'build/vendor.js' ]
+        }
+      }
+    },
+    bower_concat: {
+      build: {
+        options: { separator : ';\n' },
+        dependencies: {
+          'underscore': 'socket.io-client',
+          'jquery': 'underscore',
+          'angular': 'jquery'
+        },
+        mainFiles: {
+          'socket.io-client': 'dist/socket.io.js'
+        },
+        dest: 'build/vendor.js'
+      }
+    },
+    rename: {
+      build: {
+        files: [
+      		{src: ['build/nw.package.json'], dest: 'build/package.json'},
+          {src: ['build/nw.index.html'], dest: 'build/index.html'},
+        ]
+      }
+    },
+    compress: {
+      build: {
+        options: {
+          archive: 'build.zip'
+        },
+        files: [
+          {expand: true, cwd: 'build/', src: ['**/*'], dest: '/'}
+        ]
+      }
+    },
 
   });
 
@@ -242,6 +295,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-svgstore');
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-bower-concat');
+  grunt.loadNpmTasks('grunt-contrib-rename');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   //grunt.loadNpmTasks('grunt-browserify');
   //grunt.loadNpmTasks('grunt-ng-annotate');
 
@@ -256,6 +312,27 @@ module.exports = function (grunt) {
       //'browserify',
       'connect:livereload',
       'watch'
+    ]);
+
+    // 'clean:server',
+    // 'wiredep',
+    // 'concurrent:server',
+    // 'autoprefixer:server',
+
+  });
+
+  grunt.registerTask('build', 'build', function (target) {
+
+    grunt.task.run([
+      'clean',
+      'sass',
+      'copy:build',
+      'cssmin:build',
+      'bower_concat:build',
+      'uglify:build',
+      'rename:build',
+      //'clean:buildFinish',
+      //'compress:build'
     ]);
 
     // 'clean:server',
