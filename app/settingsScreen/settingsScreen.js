@@ -11,6 +11,7 @@
   settingsScreen.$inject = [
     '$state',
     '$scope',
+    '$rootScope',
     'local',
     'DEVICE',
     'TEST_URL',
@@ -24,6 +25,7 @@
   function settingsScreen(
     $state,
     $scope,
+    $rootScope,
     local,
     DEVICE,
     TEST_URL,
@@ -33,7 +35,7 @@
     socket,
     $interval
   ) {
-    console.log('HERE SETTINGS',$state.current.name);
+    //console.log('HERE SETTINGS',$state.current.name);
 
     var vm = this;
 
@@ -64,12 +66,12 @@
 
     function selctAP(){
 
-      $http.get(TEST_URL)
-        .then(function(result){
+      // $http.get(TEST_URL)
+      //   .then(function(result){
+      //
+      //     console.log('result', result);
 
-          console.log('result', result);
-
-          if ( result.status === 200 ) {
+          if ( ! $rootScope.online ) {
             // we have an internet
             // no need to setup wifi
             $state.go('settings.connectToHueHub');
@@ -91,7 +93,7 @@
 
 
           }
-        });
+        //});
 
       vm.selectWifi = function(ap){
         $state.go('settings.setWifiPassword');

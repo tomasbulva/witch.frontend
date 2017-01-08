@@ -66,12 +66,25 @@
     socket.$inject = [ '$rootScope', 'socketFactory' ];
     function socket( $rootScope, socketFactory ) {
       return socketFactory({
-        ioSocket: io.connect('0.0.0.0:9999')
+        ioSocket: io.connect('http://0.0.0.0:9999')
       });
     }
 
-    runSettings.$inject = [ '$rootScope', '$state', '$uiRouter', '$trace' ];
-    function runSettings( $rootScope, $state, $uiRouter, $trace ) {
+    runSettings.$inject = [ '$window', '$rootScope', '$state', '$uiRouter', '$trace' ];
+    function runSettings( $window, $rootScope, $state, $uiRouter, $trace ) {
+
+      $rootScope.online = navigator.onLine;
+      $window.addEventListener("offline", function() {
+        $rootScope.$apply(function() {
+          $rootScope.online = false;
+        });
+      }, false);
+
+      $window.addEventListener("online", function() {
+        $rootScope.$apply(function() {
+          $rootScope.online = true;
+        });
+      }, false);
 
       // var vis = window['ui-router-visualizer'];
       // vis.visualizer($uiRouter);

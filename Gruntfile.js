@@ -79,6 +79,10 @@ module.exports = function (grunt) {
                 connect.static('./bower_components')
               ),
               connect().use(
+                '/build',
+                connect.static('./build')
+              ),
+              connect().use(
                 '/styles',
                 connect.static('./styles')
               ),
@@ -153,6 +157,7 @@ module.exports = function (grunt) {
         files: {
           'index.html': [
             'app/app.js',
+            //'templates.js',
             '{,**/}*.js',
             '{,**/}*.css',
             '!Gruntfile.js',
@@ -212,7 +217,10 @@ module.exports = function (grunt) {
         src: [ 'build' ]
       },
       buildFinish: {
-        src: [ 'build/vendor.js' ]
+        src: [
+          'build/vendor.js',
+          'build/app'
+        ]
       },
     },
     copy: {
@@ -221,7 +229,7 @@ module.exports = function (grunt) {
           src: [
             'app/**/*.html',
             'app/**/*.svg',
-            '**/*.png',
+            'app/**/*.png',
             'nw.index.html',
             'nw.package.json'
           ], //'app/**',
@@ -244,6 +252,7 @@ module.exports = function (grunt) {
         files: {
           'build/bundle.min.js': [
             'app/app.js',
+            'templates.js',
             'app/app.config.js',
             'app/app.routes.js',
             'app/app.main.js',
@@ -288,6 +297,18 @@ module.exports = function (grunt) {
         ]
       }
     },
+    ngtemplates: {
+      witch: {
+        src: 'app/**/*.html',
+        dest: 'templates.js'
+      }
+    },
+    serve: {
+      options: {
+        port: 9009
+      },
+      'path': '/Users/tomasbulva/Dropbox/_Projects/witch.frontend/build/index.html'
+    }
 
   });
 
@@ -298,6 +319,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bower-concat');
   grunt.loadNpmTasks('grunt-contrib-rename');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-serve');
   //grunt.loadNpmTasks('grunt-browserify');
   //grunt.loadNpmTasks('grunt-ng-annotate');
 
@@ -305,19 +327,12 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'sass',
-      //'filerev',
+      'ngtemplates:witch',
       'injector',
       'svgstore',
-      //'ngAnnotate',
-      //'browserify',
       'connect:livereload',
       'watch'
     ]);
-
-    // 'clean:server',
-    // 'wiredep',
-    // 'concurrent:server',
-    // 'autoprefixer:server',
 
   });
 
@@ -327,18 +342,23 @@ module.exports = function (grunt) {
       'clean',
       'sass',
       'copy:build',
+      'ngtemplates:witch',
       'cssmin:build',
       'bower_concat:build',
       'uglify:build',
       'rename:build',
-      //'clean:buildFinish',
-      //'compress:build'
+      'clean:buildFinish',
+      'compress:build'
     ]);
 
-    // 'clean:server',
-    // 'wiredep',
-    // 'concurrent:server',
-    // 'autoprefixer:server',
+  });
+
+  grunt.registerTask('build:serve', 'build', function (target) {
+
+    grunt.task.run([
+      'build',
+      'serve'
+    ]);
 
   });
 };

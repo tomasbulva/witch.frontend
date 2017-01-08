@@ -14,7 +14,9 @@
 
 <body bd>
 
-  <div class="svg-sprite hide" ng-include="'svg.html'"></div>
+  <div class="svg-sprite hide">
+    <ng-include src="'app/svg.html'"></ng-include>
+  </div>
 
   <main ui-view="superview">
   </main>

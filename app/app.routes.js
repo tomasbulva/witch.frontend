@@ -33,7 +33,10 @@
         url: '/off',
         views: {
           'superview': {
-            templateUrl: 'app/offScreen/offScreenMainView.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/offScreen/offScreenMainView.html');
+            },
+            //templateUrl: 'app/offScreen/offScreenMainView.html',
             controller: 'offScreen as vm'
           }
         }
@@ -43,7 +46,10 @@
         url: '/on',
         views: {
           'superview': {
-            templateUrl: 'app/onScreen/onScreenMainView.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/onScreen/onScreenMainView.html');
+            },
+            //templateUrl: 'app/onScreen/onScreenMainView.html',
             controller: 'onScreen as vm'
           }
         }
@@ -54,7 +60,10 @@
         redirectTo: 'settings.selectAP',
         views: {
           'superview': {
-            templateUrl: 'app/settingsScreen/settingsScreenMainView.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/settingsScreen/settingsScreenMainView.html');
+            },
+            //templateUrl: 'app/settingsScreen/settingsScreenMainView.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -64,7 +73,10 @@
         url: '/selectap',
         views: {
           'setupScreen': {
-            templateUrl: 'app/settingsScreen/SettingsScreenStep1.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/settingsScreen/SettingsScreenStep1.html');
+            },
+            //templateUrl: 'app/settingsScreen/SettingsScreenStep1.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -74,7 +86,10 @@
         url: '/setWifiPassword',
         views: {
           'setupScreen': {
-            templateUrl: 'app/settingsScreen/settingsScreenStep2.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/settingsScreen/settingsScreenStep2.html');
+            },
+            //templateUrl: 'app/settingsScreen/settingsScreenStep2.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -84,7 +99,10 @@
         url: '/connectToHueHub',
         views: {
           'setupScreen': {
-            templateUrl: 'app/settingsScreen/settingsScreenStep3.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/settingsScreen/settingsScreenStep3.html');
+            },
+            //templateUrl: 'app/settingsScreen/settingsScreenStep3.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -94,7 +112,10 @@
         url: '/selectLightGroup',
         views: {
           'setupScreen': {
-            templateUrl: 'app/settingsScreen/settingsScreenStep4.html',
+            templateProvider: function($templateCache){
+              return $templateCache.get('app/settingsScreen/settingsScreenStep4.html');
+            },
+            //templateUrl: 'app/settingsScreen/settingsScreenStep4.html',
             controller: 'settingsScreen as vm'
           }
         }

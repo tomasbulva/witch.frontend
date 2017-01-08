@@ -21,16 +21,18 @@
     local,
     hue
   ) {
-    console.log('HERE OFF');
+    //console.log('HERE OFF');
 
     var vm = this;
     var localData = local.getAllData();
 
-    if ( localData.target.type === 'group' ) {
+    if ( localData.target && localData.target.id && localData.target.type === 'group' ) {
       hue.setGroupState(localData.target.id, { "on": false });
     }
-    else {
+    else if (localData.target && localData.target.id) {
       hue.setLightState(localData.target.id, { "on": false });
+    } else {
+      $state.go('settings');
     }
 
 
