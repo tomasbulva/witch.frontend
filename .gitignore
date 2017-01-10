@@ -1,5 +1,6 @@
-bower_components/
-node_modules/
-bin/
-.sass-cache/
-*.zip
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!build.zip
