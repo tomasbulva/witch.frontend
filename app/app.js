@@ -4,6 +4,8 @@
 (function(){
 'use strict';
 
+  require("nw.gui").Window.get().showDevTools();
+
   var modules = [
     'ngAnimate',
     'ui.router',

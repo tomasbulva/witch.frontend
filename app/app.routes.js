@@ -33,7 +33,7 @@
         url: '/off',
         views: {
           'superview': {
-            templateUrl: '/app/offScreen/offScreenMainView.html',
+            templateUrl: 'app/offScreen/offScreenMainView.html',
             controller: 'offScreen as vm'
           }
         }
@@ -43,7 +43,7 @@
         url: '/on',
         views: {
           'superview': {
-            templateUrl: '/app/onScreen/onScreenMainView.html',
+            templateUrl: 'app/onScreen/onScreenMainView.html',
             controller: 'onScreen as vm'
           }
         }
@@ -54,7 +54,7 @@
         redirectTo: 'settings.selectAP',
         views: {
           'superview': {
-            templateUrl: '/app/settingsScreen/settingsScreenMainView.html',
+            templateUrl: 'app/settingsScreen/settingsScreenMainView.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -64,7 +64,7 @@
         url: '/selectap',
         views: {
           'setupScreen': {
-            templateUrl: '/app/settingsScreen/SettingsScreenStep1.html',
+            templateUrl: 'app/settingsScreen/SettingsScreenStep1.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -74,7 +74,7 @@
         url: '/setWifiPassword',
         views: {
           'setupScreen': {
-            templateUrl: '/app/settingsScreen/settingsScreenStep2.html',
+            templateUrl: 'app/settingsScreen/settingsScreenStep2.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -84,7 +84,7 @@
         url: '/connectToHueHub',
         views: {
           'setupScreen': {
-            templateUrl: '/app/settingsScreen/settingsScreenStep3.html',
+            templateUrl: 'app/settingsScreen/settingsScreenStep3.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -94,7 +94,7 @@
         url: '/selectLightGroup',
         views: {
           'setupScreen': {
-            templateUrl: '/app/settingsScreen/settingsScreenStep4.html',
+            templateUrl: 'app/settingsScreen/settingsScreenStep4.html',
             controller: 'settingsScreen as vm'
           }
         }
@@ -109,10 +109,8 @@
       && window.history.pushState
     ) {
 
-      $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-      }).hashPrefix('!');
+      $locationProvider.html5Mode(true);
+      //.hashPrefix('!');
 
     }
   }
@@ -193,12 +191,12 @@
       });
     }
     else {
-      //console.log('redirecting');
+      console.log('going to settings');
       //deferred.reject('redirecting');
-      $timeout(function(){
+      //$timeout(function(){
         $state.go('settings');
-      });
-      return deferred.reject('redirecting');
+      //});
+      //return deferred.reject('redirecting');
       //$state.go('settings.selectAP', {}, {location: 'replace'});
     }
     // else if (

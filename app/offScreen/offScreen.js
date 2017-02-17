@@ -26,6 +26,11 @@
     var vm = this;
     var localData = local.getAllData();
 
+    if ( ! localData.target.type ) {
+      $state.go('settings');
+      return false;
+    }
+
     if ( localData.target.type === 'group' ) {
       hue.setGroupState(localData.target.id, { "on": false });
     }

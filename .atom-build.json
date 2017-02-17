@@ -1,0 +1,6 @@
+{
+  "cmd": "/Users/tomasbulva/Dropbox/_Projects/bin/nwjs-sdk-v0.18.2-osx-x64/nwjs.app/Contents/MacOS/nwjs",
+  "args": ["--enable-logging", "{PROJECT_PATH}/."],
+  "cwd": "/Users/tomasbulva/Dropbox/_Projects/bin/nwjs-sdk-v0.18.2-osx-x64/nwjs.app/Contents/MacOS/",
+  "sh": true
+}

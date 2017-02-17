@@ -8,13 +8,22 @@
   <meta name="author" content="Tomas Bulva">
 
   <!-- injector:bower:css -->
-  <link rel="stylesheet" href="/bower_components/angular-on-screen-keyboard/dist/angular-on-screen-keyboard.min.css">
+  <link rel="stylesheet" href="bower_components/angular-on-screen-keyboard/dist/angular-on-screen-keyboard.min.css">
   <!-- endinjector -->
 
   <!-- injector:css -->
-  <link rel="stylesheet" href="/app/main.css">
+  <link rel="stylesheet" href="app/main.css">
   <!-- endinjector -->
+  <script type="text/javascript">
+  //this is here to make node-webkit work with AngularJS routing
+  var tag = document.createElement("base");
+  var atr = document.createAttribute("href");
+  atr.value = window.location.pathname
+  tag.setAttributeNode(atr);
+  document.head.appendChild(tag);
 
+  //angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="" />'));
+  </script>
 </head>
 
 

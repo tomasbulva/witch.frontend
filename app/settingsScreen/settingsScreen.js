@@ -125,15 +125,7 @@
 
     function connectToHueHub(){
 
-      var localData = local.getAllData();
       var int = null;
-
-      // if (
-      //   ! localData
-      //   || ! localData.username
-      // ) {
-      //
-      // }
 
       hue.setup({username: "newUser", bridgeIP: "", debug: ENV === 'dev' });
 
@@ -148,6 +140,8 @@
                 $interval.cancel(int);
 
                 local.init();
+
+                var localData = local.getAllData();
                 localData.username = result[0].success.username;
 
                 $state.go('settings.selectLightGroup');
@@ -181,7 +175,7 @@
 
       var localData = local.getAllData();
 
-      hue.setup({username: localData.username, bridgeIP: "", debug: ENV === 'dev' });
+      hue.setup({username: localData.username, debug: ENV === 'dev' });
 
       getData();
 

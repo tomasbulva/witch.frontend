@@ -29,7 +29,24 @@
     var vm = this;
 
     vm.localData = local.getAllData();
-    vm.brightness = ( vm.localData.target.action.bri <= 0 || vm.localData.target.action.bri > 254 ) ? 45.0 : vm.localData.target.action.bri;
+
+    if (
+      ! vm.localData.target
+      || ! vm.localData.target.state
+      || ! vm.localData.target.state.bri
+    ){
+      vm.brightness = vm.localData.target.state.bri = 45.0;
+    }
+    else if (
+      vm.localData.target.state.bri <= 0
+      || vm.localData.target.state.bri > 254
+    ) {
+      vm.brightness = 45.0;
+    }
+    else {
+      vm.brightness = vm.localData.target.state.bri
+    }
+
     vm.topPos = 0;
     vm.switchLightOff = switchLightOff;
 
@@ -42,8 +59,8 @@
       //var x = localData.target.action.xy[0];
       //var y = localData.target.action.xy[1];
 
-      if ( vm.brightness !== vm.localData.target.action.bri ) {
-        vm.localData.target.action.bri = vm.brightness;
+      if ( vm.brightness !== vm.localData.target.state.bri ) {
+        vm.localData.target.state.bri = vm.brightness;
       }
 
       console.log('vm.brightness',vm.brightness);
@@ -68,9 +85,9 @@
 
         var bri = colors.NormalizeBri( newBri, true );
 
-        vm.localData.target.action.bri = bri;
+        vm.localData.target.state.bri = bri;
 
-        console.log( 'briChangeWatch', local.getAllData().target.action.bri );
+        console.log( 'briChangeWatch', local.getAllData().target.state.bri );
 
         if ( bri === 0 ) {
           $state.go('off');
